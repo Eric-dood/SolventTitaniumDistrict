@@ -17,6 +17,9 @@ void add_goat(list<Goat> &trip, string [], string []);
 void display_trip(list<Goat> trip);
 void shuffle_goats(list<Goat> &trip);
 void remove_dups(list<Goat> &trip);
+void add_goat_specific(list<Goat> &trip, string [], string []);
+void modify_age(list<Goat> &trip);
+
 int main_menu();
 
 int main() {
@@ -61,8 +64,12 @@ int main() {
                 delete_goat(trip);
                 break;
             case 3:    
-                cout << "Displaying goat data.\n";
-                display_trip(trip);
+                if (trip.size() <= 0) cout << "Goat data empty.\n";
+                else
+                {
+                    cout << "Displaying goat data.\n";
+                    display_trip(trip);
+                }
                 break;
             case 4:
                 trip.clear();
@@ -78,6 +85,18 @@ int main() {
             case 7:
                 remove_dups(trip);
                 break;
+            case 8:
+                cout << "Reversing the goat list..." << endl;
+                trip.reverse();
+                break;
+            case 9:
+                cout << "Adding a goat after an index." << endl;
+                add_goat_specific(trip, names, colors);
+                break;
+            case 10:
+                cout << "Increasing the goats' ages." << endl;
+                modify_age(trip);
+                break;
             default:
                 cout << "Invalid selection.\n";
                 break;
@@ -92,8 +111,8 @@ int main_menu() {
     cout << "*** GOAT MANAGER 3100 ***\n";
     cout << "[1] Add a goat | [2] Delete a goat | [3] List goats\n";
     cout << "[4] Clear the goat list | [5] Shuffle the goats | [6] Sort the goats \n";
-    cout << "[7] Remove duplicates | [8]  | [9]  \n";
-    cout << "[10]  | [11]  | [12] Quit\n";
+    cout << "[7] Remove duplicates | [8] Reverse list | [9] Insert at specific location \n";
+    cout << "[10] Increase Age | [11] Find a goat | [12] Quit\n";
     cout << "Choice --> ";
     int choice;
     cin >> choice;
@@ -170,4 +189,29 @@ void remove_dups(list<Goat> &trp)
         trp.assign(temp.begin(), temp.end());
     }
     else cout << "No duplicates found." << endl;
+}
+
+void add_goat_specific(list<Goat> &trip, string nms[], string cls[]) {
+    cout << "ADD A GOAT AT A SPECIFIC POSITION\n";
+    int index = select_goat(trip);
+    auto it = trip.begin();
+    advance(it, index-1);
+
+    int age = rand() % MAX_AGE;
+    string nm = nms[rand() % SZ_NAMES];
+    string cl = cls[rand() % SZ_COLORS];
+    Goat tmp(nm, age, cl);
+    trip.insert(it, tmp);
+
+    cout << "Goat added. New trip size: " << trip.size() << endl;
+}
+
+void modify_age(list<Goat> &trip) {
+    vector<Goat> temp(trip.begin(), trip.end());
+    for_each(temp.begin(), temp.end(), [](Goat &g)
+    {
+        if (g.get_age() < MAX_AGE)
+            g.set_age(g.get_age() + 1);
+    } );
+    trip.assign(temp.begin(), temp.end());
 }
