@@ -16,6 +16,7 @@ void delete_goat(list<Goat> &trip);
 void add_goat(list<Goat> &trip, string [], string []);
 void display_trip(list<Goat> trip);
 void shuffle_goats(list<Goat> &trip);
+void sort_goats(list<Goat> &trip);
 int main_menu();
 
 int main() {
@@ -70,6 +71,9 @@ int main() {
             case 5:
                 shuffle_goats(trip);
                 break;
+            case 6:
+                sort_goats(trip);
+                break;
             default:
                 cout << "Invalid selection.\n";
                 break;
@@ -83,8 +87,9 @@ int main() {
 int main_menu() {
     cout << "*** GOAT MANAGER 3100 ***\n";
     cout << "[1] Add a goat | [2] Delete a goat | [3] List goats\n";
-    cout << "[4] Clear the goat list | [5] Shuffle the goats | [6] \n";
-    cout << "[12] Quit\n";
+    cout << "[4] Clear the goat list | [5] Shuffle the goats | [6] Sort the goats \n";
+    cout << "[7] | [8]  | [9]  \n";
+    cout << "[10]  | [11]  | [12] Quit\n";
     cout << "Choice --> ";
     int choice;
     cin >> choice;
@@ -137,8 +142,38 @@ int select_goat(list<Goat> trp) {
 
 void shuffle_goats(list<Goat> &trp)
 {
-    cout << "Shuffling goats..." << endl;
-    vector<Goat> temp(trp.begin(), trp.end());
-    shuffle(temp.begin(), temp.end(), default_random_engine());
-    trp.assign(temp.begin(), temp.end());
+    if (trp.size() > 0)
+    {
+        cout << "Shuffling goats..." << endl;
+        vector<Goat> temp(trp.begin(), trp.end());
+        shuffle(temp.begin(), temp.end(), default_random_engine());
+        trp.assign(temp.begin(), temp.end());
+    }
+    else
+        cout << "No goats to shuffle..." << endl;
+}
+
+void sort_goats(list<Goat> &trp)
+{
+    int input;
+    string choices[] = { "Name", "Age", "Color" };
+    if (trp.size() > 0)
+    {
+        cout << "What do you want to sort by?" << endl;
+        int count = 1;
+        for (string i : choices)
+        {
+            cout << "[" << count++ << "] " << i;
+            if (count < 3) cout << " | ";
+        }
+        cout << endl << "Choice --> ";
+        cin >> input;
+        cin.ignore(1000, 10);
+        while (input < 1 or input > 3) {
+            cout << "Invalid choice, again --> ";
+            cin >> input;
+        }
+    }
+
+    cout << "Sorting by " << choices[input] << "..." << endl;
 }
