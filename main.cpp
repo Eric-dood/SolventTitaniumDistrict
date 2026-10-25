@@ -19,6 +19,7 @@ void shuffle_goats(list<Goat> &trip);
 void remove_dups(list<Goat> &trip);
 void add_goat_specific(list<Goat> &trip, string [], string []);
 void modify_age(list<Goat> &trip);
+void find_goat(list<Goat> trip);
 
 int main_menu();
 
@@ -64,7 +65,7 @@ int main() {
                 delete_goat(trip);
                 break;
             case 3:    
-                if (trip.size() <= 0) cout << "Goat data empty.\n";
+                if (trip.empty()) cout << "Goat data empty.\n";
                 else
                 {
                     cout << "Displaying goat data.\n";
@@ -214,4 +215,23 @@ void modify_age(list<Goat> &trip) {
             g.set_age(g.get_age() + 1);
     } );
     trip.assign(temp.begin(), temp.end());
+}
+
+void find_goat(list<Goat> trip)
+{
+    string search;
+
+    //Ask the user to enter the villager's name
+    cout << "Which goat do you want to find?" << endl << "Name --> ";
+    getline(cin, search);
+
+    //Use a iterator & .find() to find the villager (using .find() avoids errors)
+    auto it = find(trip.begin(), trip.end(), search);
+    if (it != trip.end())
+    {  // the iterator points to beyond the end of the map
+        cout << "\nFound: " << search;
+        cout << " (" << it->get_age() << ", " << it->get_color() << ")" << endl;
+    }
+    else //If the villager's name is not found, print a message
+        cout << endl << search << " not found." << endl;
 }
