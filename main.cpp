@@ -3,6 +3,8 @@
 #include <fstream>
 #include <iomanip>
 #include <list>
+#include <algorithm>
+#include <string>
 #include "Goat.h"
 using namespace std;
 
@@ -12,6 +14,7 @@ int select_goat(list<Goat> trip);
 void delete_goat(list<Goat> &trip);
 void add_goat(list<Goat> &trip, string [], string []);
 void display_trip(list<Goat> trip);
+void find_goat(list<Goat> trip);
 int main_menu();
 
 int main() {
@@ -63,6 +66,9 @@ int main() {
                 trip.clear();
                 cout << "Clearing the goat data. New trip size: " << trip.size() << endl;
                 break;
+            case 5:
+                find_goat(trip);
+                break;
             default:
                 cout << "Invalid selection.\n";
                 break;
@@ -76,7 +82,7 @@ int main() {
 int main_menu() {
     cout << "*** GOAT MANAGER 3100 ***\n";
     cout << "[1] Add a goat | [2] Delete a goat | [3] List goats\n";
-    cout << "[4] Clear the goat list\n";
+    cout << "[4] Clear the goat list | [5] Find a goat | [6] \n";
     cout << "[12] Quit\n";
     cout << "Choice --> ";
     int choice;
@@ -107,14 +113,12 @@ void add_goat(list<Goat> &trip, string nms[], string cls[]) {
     cout << "Goat added. New trip size: " << trip.size() << endl;
 }
 
-void display_trip(list<Goat> trp) {
+void display_trip(list<Goat> trp)
+{
     int i = 1;
-    for (auto gt: trp)
-        cout << "\t" 
-             << "[" << i++ << "] "
-             << gt.get_name() 
-             << " (" << gt.get_age() 
-             << ", " << gt.get_color() << ")\n";
+    for (auto gt : trp)
+        cout << "\t" << "[" << i++ << "] " << gt.get_name() << " (" << gt.get_age() << ", "
+        << gt.get_color() << ")\n";
 }
 
 int select_goat(list<Goat> trp) {
@@ -128,4 +132,21 @@ int select_goat(list<Goat> trp) {
         cin >> input;
     }
     return input;
+}
+
+void find_goat(list<Goat> trip)
+{
+    string input;
+    cout << "Find a goat by its name:\n";
+    cout << "Choice --> ";
+    getline(cin, input);
+    
+    //Use a iterator & .find() to find the villager (using .find() avoids errors)
+    auto it = find(trip.begin(), trip.end(), input);
+    if (it != trip.end())
+    {  // the iterator points to beyond the end of the map
+        //If the choice is 5, find the villager
+        cout << "\nFound " << trip << "!" << endl;
+        cout << "\t" << "[" << i++ << "] " << trip[i].get_name() << " (" << gt.get_age() << ", " << gt.get_color() << ")\n";
+    }
 }
