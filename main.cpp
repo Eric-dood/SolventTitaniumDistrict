@@ -16,7 +16,7 @@ void delete_goat(list<Goat> &trip);
 void add_goat(list<Goat> &trip, string [], string []);
 void display_trip(list<Goat> trip);
 void shuffle_goats(list<Goat> &trip);
-void remove_duplicates(list<Goat> &trip);
+void remove_dups(list<Goat> &trip);
 int main_menu();
 
 int main() {
@@ -74,6 +74,9 @@ int main() {
             case 6:
                 cout << "Sorting the goat list by name..." << endl;
                 trip.sort();
+                break;
+            case 7:
+                remove_dups(trip);
                 break;
             default:
                 cout << "Invalid selection.\n";
@@ -152,4 +155,13 @@ void shuffle_goats(list<Goat> &trp)
     }
     else
         cout << "No goats to shuffle..." << endl;
+}
+
+void remove_dups(list<Goat> &trp)
+{
+    auto oldSize = trp.size();
+    cout << "Removing goat duplicates by name..." << endl;
+    trp.unique();
+    if (trp.size() != oldSize) cout << "New list size: " << trp.size() << endl;
+    else cout << "No duplicates found." << endl;
 }
