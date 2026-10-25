@@ -160,8 +160,14 @@ void shuffle_goats(list<Goat> &trp)
 void remove_dups(list<Goat> &trp)
 {
     auto oldSize = trp.size();
+    list<Goat> temp = trp;
     cout << "Removing goat duplicates by name..." << endl;
-    trp.unique();
-    if (trp.size() != oldSize) cout << "New list size: " << trp.size() << endl;
+    temp.sort();
+    temp.unique();
+    if (temp.size() != oldSize)
+    {
+        cout << "New list size: " << temp.size() << endl;
+        trp.assign(temp.begin(), temp.end());
+    }
     else cout << "No duplicates found." << endl;
 }
