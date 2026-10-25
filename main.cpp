@@ -5,6 +5,7 @@
 #include <list>
 #include <algorithm>
 #include <string>
+#include <random>
 #include "Goat.h"
 using namespace std;
 
@@ -14,7 +15,7 @@ int select_goat(list<Goat> trip);
 void delete_goat(list<Goat> &trip);
 void add_goat(list<Goat> &trip, string [], string []);
 void display_trip(list<Goat> trip);
-void find_goat(list<Goat> trip);
+void shuffle_goats(list<Goat> &trip);
 int main_menu();
 
 int main() {
@@ -67,7 +68,7 @@ int main() {
                 cout << "Clearing the goat data. New trip size: " << trip.size() << endl;
                 break;
             case 5:
-                find_goat(trip);
+                shuffle_goats(trip);
                 break;
             default:
                 cout << "Invalid selection.\n";
@@ -82,7 +83,7 @@ int main() {
 int main_menu() {
     cout << "*** GOAT MANAGER 3100 ***\n";
     cout << "[1] Add a goat | [2] Delete a goat | [3] List goats\n";
-    cout << "[4] Clear the goat list | [5] Find a goat | [6] \n";
+    cout << "[4] Clear the goat list | [5] Shuffle the goats | [6] \n";
     cout << "[12] Quit\n";
     cout << "Choice --> ";
     int choice;
@@ -134,19 +135,10 @@ int select_goat(list<Goat> trp) {
     return input;
 }
 
-void find_goat(list<Goat> trip)
+void shuffle_goats(list<Goat> &trp)
 {
-    string input;
-    cout << "Find a goat by its name:\n";
-    cout << "Choice --> ";
-    getline(cin, input);
-    
-    //Use a iterator & .find() to find the villager (using .find() avoids errors)
-    auto it = find(trip.begin(), trip.end(), input);
-    if (it != trip.end())
-    {  // the iterator points to beyond the end of the map
-        //If the choice is 5, find the villager
-        cout << "\nFound " << trip << "!" << endl;
-        cout << "\t" << "[" << i++ << "] " << trip[i].get_name() << " (" << gt.get_age() << ", " << gt.get_color() << ")\n";
-    }
+    cout << "Shuffling goats..." << endl;
+    vector<Goat> temp(trp.begin(), trp.end());
+    shuffle(temp.begin(), temp.end(), default_random_engine());
+    trp.assign(temp.begin(), temp.end());
 }
