@@ -9,8 +9,10 @@
 #include "Goat.h"
 using namespace std;
 
+//Global constants for names & colors
 const int SZ_NAMES = 200, SZ_COLORS = 25;
 
+//Prototype functions
 int select_goat(list<Goat> trip);
 void delete_goat(list<Goat> &trip);
 void add_goat(list<Goat> &trip, string [], string []);
@@ -20,12 +22,12 @@ void remove_dups(list<Goat> &trip);
 void add_goat_specific(list<Goat> &trip, string [], string []);
 void modify_age(list<Goat> &trip);
 void find_goat(list<Goat> trip);
-
 int main_menu();
 
+//Start of main()
 int main() {
+    //Use a random seed generator
     srand(time(0));
-    bool again;
 
     // read & populate arrays for names and colors
     ifstream fin("names.txt");
@@ -98,6 +100,10 @@ int main() {
                 cout << "Increasing the goats' ages." << endl;
                 modify_age(trip);
                 break;
+            case 11:
+                cout << "Finding a goat by name." << endl;
+                find_goat(trip);
+                break;
             default:
                 cout << "Invalid selection.\n";
                 break;
@@ -112,7 +118,7 @@ int main_menu() {
     cout << "*** GOAT MANAGER 3100 ***\n";
     cout << "[1] Add a goat | [2] Delete a goat | [3] List goats\n";
     cout << "[4] Clear the goat list | [5] Shuffle the goats | [6] Sort the goats \n";
-    cout << "[7] Remove duplicates | [8] Reverse list | [9] Insert at specific location \n";
+    cout << "[7] Remove duplicates | [8] Reverse list | [9] Insert before a specific location \n";
     cout << "[10] Increase Age | [11] Find a goat | [12] Quit\n";
     cout << "Choice --> ";
     int choice;
@@ -193,7 +199,7 @@ void remove_dups(list<Goat> &trp)
 }
 
 void add_goat_specific(list<Goat> &trip, string nms[], string cls[]) {
-    cout << "ADD A GOAT AT A SPECIFIC POSITION\n";
+    cout << "ADD A GOAT BEFORE SPECIFIC POSITION\n";
     int index = select_goat(trip);
     auto it = trip.begin();
     advance(it, index-1);
@@ -223,6 +229,7 @@ void find_goat(list<Goat> trip)
 
     //Ask the user to enter the villager's name
     cout << "Which goat do you want to find?" << endl << "Name --> ";
+    cin.ignore();
     getline(cin, search);
 
     //Use a iterator & .find() to find the villager (using .find() avoids errors)
@@ -230,8 +237,8 @@ void find_goat(list<Goat> trip)
     if (it != trip.end())
     {  // the iterator points to beyond the end of the map
         cout << "\nFound: " << search;
-        cout << " (" << it->get_age() << ", " << it->get_color() << ")" << endl;
+        cout << " (" << it->get_age() << ", " << it->get_color() << ")\n" << endl;
     }
-    else //If the villager's name is not found, print a message
-        cout << endl << search << " not found." << endl;
+    else //If the goat's name is not found, print a message
+        cout << endl << search << " not found.\n" << endl;
 }
