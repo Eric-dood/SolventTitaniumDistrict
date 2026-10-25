@@ -289,10 +289,12 @@ void modify_age(list<Goat> &trip) {
 //Define find_goat()
 void find_goat(list<Goat> trip)
 {
+    //This'll be used as the target for searching
     string search;
 
     //Ask the user to enter the villager's name
     cout << "Which goat do you want to find?" << endl << "Name --> ";
+    //Use cin.ignore() in order for it to not skip inputting the target name
     cin.ignore();
     getline(cin, search);
 
